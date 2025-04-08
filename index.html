@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zundium UI Library</title>
+    <!-- Importando Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Estilo geral */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #121212;
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: rgba(18, 18, 18, 0.9);
+            border-radius: 15px;
+            padding: 25px;
+            max-width: 900px;
+            width: 90%;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(123, 104, 238, 0.2);
+        }
+
+        .nav {
+            display: flex;
+            border-bottom: 1px solid rgba(123, 104, 238, 0.3);
+            margin-bottom: 25px;
+            background: rgba(18, 18, 18, 0.95);
+            border-radius: 10px 10px 0 0;
+            padding: 5px 10px;
+        }
+
+        .nav-tab {
+            padding: 12px 25px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #b0b0b0;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .nav-tab.active {
+            color: #7B68EE;
+            background: rgba(123, 104, 238, 0.15);
+        }
+
+        .nav-tab:hover {
+            color: #7B68EE;
+            background: rgba(123, 104, 238, 0.1);
+        }
+
+        .nav-tab i {
+            margin-right: 8px;
+        }
+
+        .tab-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+            opacity: 1;
+        }
+
+        h1 {
+            font-size: 40px;
+            margin: 0 0 15px;
+            color: #7B68EE;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #a0a0a0;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #7B68EE;
+            margin-bottom: 15px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        h2 i {
+            margin-right: 10px;
+        }
+
+        h3 {
+            font-size: 20px;
+            color: #b0b0b0;
+            margin: 15px 0 10px;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin: 0 0 15px;
+        }
+
+        /* Estilo do código com botão de copiar */
+        .code-block {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        pre {
+            background: rgba(20, 20, 25, 0.95);
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+            color: #d1d1d1;
+            border: 1px solid rgba(123, 104, 238, 0.2);
+            margin: 0;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            background: #7B68EE;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .code-block:hover .copy-btn {
+            opacity: 1;
+        }
+
+        .copy-btn:hover {
+            background: #6a58d3;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #7B68EE;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #6a58d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(123, 104, 238, 0.3);
+        }
+
+        a {
+            color: #7B68EE;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        li:before {
+            content: "•";
+            color: #7B68EE;
+            position: absolute;
+            left: 0;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 14px;
+            color: #a0a0a0;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(123, 104, 238, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Zundium UI Library</h1>
+        <p class="subtitle">A minimalist and transparent UI library for Roblox exploits</p>
+
+        <!-- Navegação -->
+        <div class="nav">
+            <div class="nav-tab active" onclick="openTab('home')"><i class="fas fa-home"></i> Home</div>
+            <div class="nav-tab" onclick="openTab('docs')"><i class="fas fa-book"></i> Docs</div>
+        </div>
+
+        <!-- Aba Home -->
+        <div id="home" class="tab-content active">
+            <div class="section">
+                <h2><i class="fas fa-info-circle"></i> About</h2>
+                <p>Zundium UI Library is a lightweight, modern interface designed by <strong>yPyetroXP</strong> for Roblox scripting and exploits. Inspired by Fluent UI, it offers a sleek, transparent design with smooth animations and essential features like buttons, toggles, sliders, and more.</p>
+            </div>
+
+            <div class="section">
+                <h2><i class="fas fa-code"></i> How to Use</h2>
+                <p>Load Zundium directly from GitHub into your exploit with this script:</p>
+                <div class="code-block">
+                    <pre><code>local Zundium = loadstring(game:HttpGet("https://raw.githubusercontent.com/yPyetroXP/zundium/main/src/zundium.lua"))()
+local window = Zundium:CreateWindow("Exploit Hub")
+window:AddButton("Test", function() print("Clicked!") end)</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+                <p>Press <strong>F9</strong> to toggle the UI visibility.</p>
+            </div>
+
+            <div class="section">
+                <h2><i class="fas fa-list"></i> Features</h2>
+                <ul>
+                    <li>Transparent and minimalist design</li>
+                    <li>Buttons, toggles, sliders, dropdowns, and textboxes</li>
+                    <li>Smooth animations with hover effects</li>
+                    <li>Customizable theme</li>
+                    <li>Hotkey support (F9 to show/hide)</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2><i class="fas fa-rocket"></i> Get Started</h2>
+                <p>Check out the source code and examples on GitHub:</p>
+                <a href="https://github.com/yPyetroXP/zundium" target="_blank" class="btn">Visit GitHub</a>
+            </div>
+        </div>
+
+        <!-- Aba Docs -->
+        <div id="docs" class="tab-content">
+            <div class="section">
+                <h2><i class="fas fa-book-open"></i> Documentation</h2>
+                <p>Here’s everything you need to know to use Zundium UI Library effectively in your Roblox exploits.</p>
+            </div>
+
+            <div class="section">
+                <h2><i class="fas fa-window-maximize"></i> Creating a Window</h2>
+                <p>Create a new UI window with a custom title:</p>
+                <div class="code-block">
+                    <pre><code>local Zundium = loadstring(game:HttpGet("https://raw.githubusercontent.com/yPyetroXP/zundium/main/src/zundium.lua"))()
+local window = Zundium:CreateWindow("My Exploit")</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><i class="fas fa-plus-circle"></i> Adding Elements</h2>
+
+                <h3>Button</h3>
+                <p>Add a clickable button with a callback function:</p>
+                <div class="code-block">
+                    <pre><code>window:AddButton("Click Me", function()
+    print("Button clicked!")
+end)</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+
+                <h3>Toggle</h3>
+                <p>Add a toggle switch with an initial state and callback:</p>
+                <div class="code-block">
+                    <pre><code>window:AddToggle("ESP", false, function(state)
+    print("ESP is now: " .. (state and "ON" or "OFF"))
+end)</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+
+                <h3>Slider</h3>
+                <p>Add a slider with min, max, default value, and callback:</p>
+                <div class="code-block">
+                    <pre><code>window:AddSlider("Speed", 16, 100, 16, function(value)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = value
+end)</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+
+                <h3>Dropdown</h3>
+                <p>Add a dropdown menu with options and a callback:</p>
+                <div class="code-block">
+                    <pre><code>window:AddDropdown({"Option 1", "Option 2", "Option 3"}, function(selected)
+    print("Selected: " .. selected)
+end)</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+
+                <h3>Textbox</h3>
+                <p>Add a textbox for user input with a callback on Enter:</p>
+                <div class="code-block">
+                    <pre><code>window:AddTextbox("Enter text", function(text)
+    print("User entered: " .. text)
+end)</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+
+                <h3>Label</h3>
+                <p>Add a simple text label:</p>
+                <div class="code-block">
+                    <pre><code>window:AddLabel("Welcome to Zundium!")</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><i class="fas fa-palette"></i> Customizing the Theme</h2>
+                <p>Change the theme colors and transparency:</p>
+                <div class="code-block">
+                    <pre><code>Zundium:SetTheme({
+    PrimaryColor = Color3.fromRGB(20, 20, 25),
+    AccentColor = Color3.fromRGB(120, 180, 255),
+    TextColor = Color3.fromRGB(240, 240, 240),
+    Transparency = 0.6
+})</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><i class="fas fa-keyboard"></i> Hotkey</h2>
+                <p>The UI can be toggled with the <strong>F9</strong> key by default.</p>
+            </div>
+
+            <div class="section">
+                <h2><i class="fas fa-lightbulb"></i> Tips for Exploits</h2>
+                <ul>
+                    <li>Use sliders for fine-tuning values like speed or jump height.</li>
+                    <li>Combine toggles with loops for features like ESP or auto-farm.</li>
+                    <li>Keep the UI minimized or hidden (F9) to stay discreet.</li>
+                </ul>
+            </div>
+        </div>
+
+        <footer>
+            Created by yPyetroXP | Zundium INC | Version 1.5 | © 2025
+        </footer>
+    </div>
+
+    <script>
+        // Função para alternar abas
+        function openTab(tabName) {
+            var tabs = document.getElementsByClassName("tab-content");
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove("active");
+            }
+            document.getElementById(tabName).classList.add("active");
+
+            var navTabs = document.getElementsByClassName("nav-tab");
+            for (var i = 0; i < navTabs.length; i++) {
+                navTabs[i].classList.remove("active");
+            }
+            event.currentTarget.classList.add("active");
+        }
+
+        // Função para copiar código
+        function copyCode(button) {
+            var code = button.previousElementSibling.querySelector("code").innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                button.innerText = "Copied!";
+                setTimeout(() => {
+                    button.innerText = "Copy";
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
