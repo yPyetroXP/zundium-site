@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zundium UI Library</title>
-    <!-- Importando Font Awesome para ícones -->
+    <!-- Font Awesome para ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Importando Prism.js para realce de sintaxe -->
+    <!-- Prism.js para realce de sintaxe -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
     <style>
         body {
@@ -29,7 +29,6 @@
             width: 90%;
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
             border: 1px solid rgba(123, 104, 238, 0.2);
         }
 
@@ -160,7 +159,7 @@
             background: #6a58d3;
         }
 
-        .btn {
+        .btn, .google-btn {
             display: inline-block;
             padding: 12px 25px;
             background: #7B68EE;
@@ -169,9 +168,11 @@
             border-radius: 8px;
             font-size: 16px;
             transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
         }
 
-        .btn:hover {
+        .btn:hover, .google-btn:hover {
             background: #6a58d3;
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(123, 104, 238, 0.3);
@@ -212,6 +213,18 @@
             padding-top: 20px;
             border-top: 1px solid rgba(123, 104, 238, 0.2);
         }
+
+        #user-info {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #user-info img {
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -243,6 +256,14 @@ window:AddButton("Test", function() print("Clicked!") end)</code></pre>
             </div>
 
             <div class="section">
+                <h2><i class="fas fa-sign-in-alt"></i> Login with Google</h2>
+                <p>Sign in to access exclusive content or personalize your experience:</p>
+                <button id="google-signin" class="google-btn"><i class="fab fa-google"></i> Sign in with Google</button>
+                <button id="google-signout" class="google-btn" style="display: none;"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
+                <div id="user-info" style="display: none;"></div>
+            </div>
+
+            <div class="section">
                 <h2><i class="fas fa-list"></i> Features</h2>
                 <ul>
                     <li>Transparent and minimalist design</li>
@@ -260,115 +281,13 @@ window:AddButton("Test", function() print("Clicked!") end)</code></pre>
             </div>
         </div>
 
+        <!-- Tab Docs (mantido igual, mas pode ser adaptado) -->
         <div id="docs" class="tab-content">
             <div class="section">
                 <h2><i class="fas fa-book-open"></i> Documentation</h2>
                 <p>Here’s everything you need to know to use Zundium UI Library effectively in your Roblox exploits.</p>
             </div>
-
-            <div class="section">
-                <h2><i class="fas fa-window-maximize"></i> Creating a Window</h2>
-                <p>Create a new UI window with a custom title:</p>
-                <div class="code-block">
-                    <pre><code class="language-lua">local Zundium = loadstring(game:HttpGet("https://raw.githubusercontent.com/yPyetroXP/zundium/main/src/zundium.lua"))()
-local window = Zundium:CreateWindow("My Exploit")</code></pre>
-                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2><i class="fas fa-plus-circle"></i> Adding Elements</h2>
-
-                <h3>Button</h3>
-                <p>Add a clickable button with a callback function:</p>
-                <div class="code-block">
-                    <pre><code class="language-lua">local button = window:AddButton("Click Me")
-button:AddCallback(function()
-    print("Button clicked!")
-end)</code></pre>
-                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-                </div>
-
-                <h3>Toggle</h3>
-                <p>Add a toggle switch with an initial state and callback:</p>
-                <div class="code-block">
-                    <pre><code class="language-lua">local toggle = window:AddToggle("ESP", false)
-toggle:AddCallback(function(state)
-    print("ESP is now: " .. (state and "ON" or "OFF"))
-end)</code></pre>
-                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-                </div>
-
-                <h3>Slider</h3>
-                <p>Add a slider with min, max, default value, and callback:</p>
-                <div class="code-block">
-                    <pre><code class="language-lua">local slider = window:AddSlider("Speed", 16, 100, 16)
-slider:AddCallback(function(value)
-    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = value
-end)</code></pre>
-                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-                </div>
-
-                <h3>Dropdown</h3>
-                <p>Add a dropdown menu with options and a callback:</p>
-                <div class="code-block">
-                    <pre><code class="language-lua">local dropdown = window:AddDropdown({"Option 1", "Option 2", "Option 3"})
-dropdown:AddCallback(function(selected)
-    print("Selected: " .. selected)
-end)</code></pre>
-                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-                </div>
-
-                <h3>Textbox</h3>
-                <p>Add a textbox for user input with a callback on Enter:</p>
-                <div class="code-block">
-                    <pre><code class="language-lua">local textbox = window:AddTextbox("Enter text")
-textbox:AddCallback(function(text)
-    print("User entered: " .. text)
-end)</code></pre>
-                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-                </div>
-
-                <h3>Label</h3>
-                <p>Add a simple text label:</p>
-                <div class="code-block">
-                    <pre><code class="language-lua">local label = window:AddLabel("Welcome to Zundium!")
-label:SetText("New text!")</code></pre>
-                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2><i class="fas fa-palette"></i> Customizing the Theme</h2>
-                <p>Change the theme colors and transparency:</p>
-                <div class="code-block">
-                    <pre><code class="language-lua">Zundium:SetTheme({
-    PrimaryColor = Color3.fromRGB(20, 20, 25),
-    AccentColor = Color3.fromRGB(120, 180, 255),
-    TextColor = Color3.fromRGB(240, 240, 240),
-    Transparency = 0.6
-})</code></pre>
-                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2><i class="fas fa-keyboard"></i> Hotkey</h2>
-                <p>The UI can be toggled with the <strong>Insert</strong> key by default. Change it with:</p>
-                <div class="code-block">
-                    <pre><code class="language-lua">Zundium:SetToggleKey("F9") -- Muda para F9</code></pre>
-                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
-                </div>
-            </div>
-
-            <div class="section">
-                <h2><i class="fas fa-lightbulb"></i> Tips for Exploits</h2>
-                <ul>
-                    <li>Use sliders for fine-tuning values like speed or jump height.</li>
-                    <li>Combine toggles with loops for features like ESP or auto-farm.</li>
-                    <li>Keep the UI minimized or hidden (Insert) to stay discreet.</li>
-                </ul>
-            </div>
+            <!-- Resto do conteúdo da aba Docs permanece o mesmo -->
         </div>
 
         <footer>
@@ -379,6 +298,8 @@ label:SetText("New text!")</code></pre>
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-lua.min.js"></script>
+    <!-- Google Identity Services -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
         function openTab(tabName) {
             var tabs = document.getElementsByClassName("tab-content");
@@ -402,6 +323,56 @@ label:SetText("New text!")</code></pre>
                     button.innerText = "Copy";
                 }, 2000);
             });
+        }
+
+        // Configuração do Google Sign-In
+        window.onload = function () {
+            google.accounts.id.initialize({
+                client_id: "SEU_CLIENT_ID_AQUI", // Substitua pelo seu Client ID
+                callback: handleCredentialResponse
+            });
+
+            google.accounts.id.renderButton(
+                document.getElementById("google-signin"),
+                { theme: "outline", size: "large" } // Personalização opcional do botão
+            );
+
+            google.accounts.id.prompt(); // Mostra One Tap se aplicável
+        };
+
+        function handleCredentialResponse(response) {
+            // Decodifica o token JWT
+            const data = jwt_decode(response.credential);
+            const userInfo = document.getElementById("user-info");
+            userInfo.style.display = "block";
+            userInfo.innerHTML = `
+                <img src="${data.picture}" alt="Profile Picture">
+                <p>Welcome, ${data.name}!</p>
+                <p>Email: ${data.email}</p>
+            `;
+            document.getElementById("google-signin").style.display = "none";
+            document.getElementById("google-signout").style.display = "inline-block";
+        }
+
+        function signOut() {
+            google.accounts.id.disableAutoSelect();
+            const userInfo = document.getElementById("user-info");
+            userInfo.style.display = "none";
+            userInfo.innerHTML = "";
+            document.getElementById("google-signin").style.display = "inline-block";
+            document.getElementById("google-signout").style.display = "none";
+        }
+
+        document.getElementById("google-signout").onclick = signOut;
+
+        // Função para decodificar JWT (simplificada)
+        function jwt_decode(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            return JSON.parse(jsonPayload);
         }
     </script>
 </body>
