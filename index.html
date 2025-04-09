@@ -159,7 +159,7 @@
             background: #6a58d3;
         }
 
-        .btn, .google-btn {
+        .btn {
             display: inline-block;
             padding: 12px 25px;
             background: #7B68EE;
@@ -170,9 +170,10 @@
             transition: all 0.3s ease;
             cursor: pointer;
             border: none;
+            margin: 5px 0;
         }
 
-        .btn:hover, .google-btn:hover {
+        .btn:hover {
             background: #6a58d3;
             transform: translateY(-2px);
             box-shadow: 0 4px 10px rgba(123, 104, 238, 0.3);
@@ -214,16 +215,31 @@
             border-top: 1px solid rgba(123, 104, 238, 0.2);
         }
 
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .auth-form input {
+            padding: 10px;
+            background: rgba(40, 40, 45, 0.9);
+            border: 1px solid rgba(123, 104, 238, 0.3);
+            border-radius: 5px;
+            color: #e0e0e0;
+            font-size: 14px;
+        }
+
+        .auth-form input:focus {
+            outline: none;
+            border-color: #7B68EE;
+        }
+
         #user-info {
             text-align: center;
             margin-top: 20px;
-        }
-
-        #user-info img {
-            border-radius: 50%;
-            width: 80px;
-            height: 80px;
-            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -256,11 +272,21 @@ window:AddButton("Test", function() print("Clicked!") end)</code></pre>
             </div>
 
             <div class="section">
-                <h2><i class="fas fa-sign-in-alt"></i> Login with Google</h2>
-                <p>Sign in to access exclusive content or personalize your experience:</p>
-                <button id="google-signin" class="google-btn"><i class="fab fa-google"></i> Sign in with Google</button>
-                <button id="google-signout" class="google-btn" style="display: none;"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
-                <div id="user-info" style="display: none;"></div>
+                <h2><i class="fas fa-user-plus"></i> Register / Login</h2>
+                <p>Create an account or log in to access exclusive features:</p>
+                <div id="auth-container">
+                    <form id="auth-form" class="auth-form">
+                        <input type="text" id="username" placeholder="Username" required>
+                        <input type="password" id="password" placeholder="Password" required>
+                        <button type="button" class="btn" onclick="login()">Login</button>
+                        <button type="button" class="btn" onclick="register()">Register</button>
+                    </form>
+                    <div id="user-info" style="display: none;">
+                        <p>Welcome, <span id="logged-username"></span>!</p>
+                        <button class="btn" onclick="logout()">Logout</button>
+                        <button class="btn" onclick="downloadUsers()">Download User Data</button>
+                    </div>
+                </div>
             </div>
 
             <div class="section">
@@ -281,13 +307,115 @@ window:AddButton("Test", function() print("Clicked!") end)</code></pre>
             </div>
         </div>
 
-        <!-- Tab Docs (mantido igual, mas pode ser adaptado) -->
         <div id="docs" class="tab-content">
             <div class="section">
                 <h2><i class="fas fa-book-open"></i> Documentation</h2>
                 <p>Here’s everything you need to know to use Zundium UI Library effectively in your Roblox exploits.</p>
             </div>
-            <!-- Resto do conteúdo da aba Docs permanece o mesmo -->
+
+            <div class="section">
+                <h2><i class="fas fa-window-maximize"></i> Creating a Window</h2>
+                <p>Create a new UI window with a custom title:</p>
+                <div class="code-block">
+                    <pre><code class="language-lua">local Zundium = loadstring(game:HttpGet("https://raw.githubusercontent.com/yPyetroXP/zundium/main/src/zundium.lua"))()
+local window = Zundium:CreateWindow("My Exploit")</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><i class="fas fa-plus-circle"></i> Adding Elements</h2>
+
+                <h3>Button</h3>
+                <p>Add a clickable button with a callback function:</p>
+                <div class="code-block">
+                    <pre><code class="language-lua">local button = window:AddButton("Click Me")
+button:AddCallback(function()
+    print("Button clicked!")
+end)</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+
+                <h3>Toggle</h3>
+                <p>Add a toggle switch with an initial state and callback:</p>
+                <div class="code-block">
+                    <pre><code class="language-lua">local toggle = window:AddToggle("ESP", false)
+toggle:AddCallback(function(state)
+    print("ESP is now: " .. (state and "ON" or "OFF"))
+end)</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+
+                <h3>Slider</h3>
+                <p>Add a slider with min, max, default value, and callback:</p>
+                <div class="code-block">
+                    <pre><code class="language-lua">local slider = window:AddSlider("Speed", 16, 100, 16)
+slider:AddCallback(function(value)
+    game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = value
+end)</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+
+                <h3>Dropdown</h3>
+                <p>Add a dropdown menu with options and a callback:</p>
+                <div class="code-block">
+                    <pre><code class="language-lua">local dropdown = window:AddDropdown({"Option 1", "Option 2", "Option 3"})
+dropdown:AddCallback(function(selected)
+    print("Selected: " .. selected)
+end)</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+
+                <h3>Textbox</h3>
+                <p>Add a textbox for user input with a callback on Enter:</p>
+                <div class="code-block">
+                    <pre><code class="language-lua">local textbox = window:AddTextbox("Enter text")
+textbox:AddCallback(function(text)
+    print("User entered: " .. text)
+end)</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+
+                <h3>Label</h3>
+                <p>Add a simple text label:</p>
+                <div class="code-block">
+                    <pre><code class="language-lua">local label = window:AddLabel("Welcome to Zundium!")
+label:SetText("New text!")</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><i class="fas fa-palette"></i> Customizing the Theme</h2>
+                <p>Change the theme colors and transparency:</p>
+                <div class="code-block">
+                    <pre><code class="language-lua">Zundium:SetTheme({
+    PrimaryColor = Color3.fromRGB(20, 20, 25),
+    AccentColor = Color3.fromRGB(120, 180, 255),
+    TextColor = Color3.fromRGB(240, 240, 240),
+    Transparency = 0.6
+})</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><i class="fas fa-keyboard"></i> Hotkey</h2>
+                <p>The UI can be toggled with the <strong>Insert</strong> key by default. Change it with:</p>
+                <div class="code-block">
+                    <pre><code class="language-lua">Zundium:SetToggleKey("F9") -- Muda para F9</code></pre>
+                    <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2><i class="fas fa-lightbulb"></i> Tips for Exploits</h2>
+                <ul>
+                    <li>Use sliders for fine-tuning values like speed or jump height.</li>
+                    <li>Combine toggles with loops for features like ESP or auto-farm.</li>
+                    <li>Keep the UI minimized or hidden (Insert) to stay discreet.</li>
+                </ul>
+            </div>
         </div>
 
         <footer>
@@ -298,8 +426,6 @@ window:AddButton("Test", function() print("Clicked!") end)</code></pre>
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-lua.min.js"></script>
-    <!-- Google Identity Services -->
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
         function openTab(tabName) {
             var tabs = document.getElementsByClassName("tab-content");
@@ -325,55 +451,83 @@ window:AddButton("Test", function() print("Clicked!") end)</code></pre>
             });
         }
 
-        // Configuração do Google Sign-In
-        window.onload = function () {
-            google.accounts.id.initialize({
-                client_id: "658766262102-t4dvmildkvidio8thg0vok0en271hu88.apps.googleusercontent.com", // Substitua pelo seu Client ID
-                callback: handleCredentialResponse
-            });
+        // Funções de cadastro e login
+        function register() {
+            const username = document.getElementById("username").value.trim();
+            const password = document.getElementById("password").value.trim();
 
-            google.accounts.id.renderButton(
-                document.getElementById("google-signin"),
-                { theme: "outline", size: "large" } // Personalização opcional do botão
-            );
+            if (!username || !password) {
+                alert("Please fill in both username and password.");
+                return;
+            }
 
-            google.accounts.id.prompt(); // Mostra One Tap se aplicável
+            if (username.length < 3 || password.length < 6) {
+                alert("Username must be at least 3 characters and password at least 6 characters.");
+                return;
+            }
+
+            let users = JSON.parse(localStorage.getItem("zundium_users")) || {};
+            if (users[username]) {
+                alert("Username already exists!");
+                return;
+            }
+
+            users[username] = password; // Senha em texto simples (não seguro para produção)
+            localStorage.setItem("zundium_users", JSON.stringify(users));
+            alert("Registration successful! You can now log in.");
+            document.getElementById("auth-form").reset();
+        }
+
+        function login() {
+            const username = document.getElementById("username").value.trim();
+            const password = document.getElementById("password").value.trim();
+
+            if (!username || !password) {
+                alert("Please fill in both username and password.");
+                return;
+            }
+
+            let users = JSON.parse(localStorage.getItem("zundium_users")) || {};
+            if (users[username] && users[username] === password) {
+                localStorage.setItem("zundium_logged_user", username);
+                showUserInfo(username);
+            } else {
+                alert("Invalid username or password!");
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem("zundium_logged_user");
+            document.getElementById("auth-form").style.display = "block";
+            document.getElementById("user-info").style.display = "none";
+        }
+
+        function showUserInfo(username) {
+            document.getElementById("auth-form").style.display = "none";
+            document.getElementById("user-info").style.display = "block";
+            document.getElementById("logged-username").textContent = username;
+        }
+
+        function downloadUsers() {
+            const users = localStorage.getItem("zundium_users") || "{}";
+            const blob = new Blob([users], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "zundium_users.json";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Verifica se já está logado ao carregar a página
+        window.onload = function() {
+            const loggedUser = localStorage.getItem("zundium_logged_user");
+            if (loggedUser) {
+                showUserInfo(loggedUser);
+            }
         };
-
-        function handleCredentialResponse(response) {
-            // Decodifica o token JWT
-            const data = jwt_decode(response.credential);
-            const userInfo = document.getElementById("user-info");
-            userInfo.style.display = "block";
-            userInfo.innerHTML = `
-                <img src="${data.picture}" alt="Profile Picture">
-                <p>Welcome, ${data.name}!</p>
-                <p>Email: ${data.email}</p>
-            `;
-            document.getElementById("google-signin").style.display = "none";
-            document.getElementById("google-signout").style.display = "inline-block";
-        }
-
-        function signOut() {
-            google.accounts.id.disableAutoSelect();
-            const userInfo = document.getElementById("user-info");
-            userInfo.style.display = "none";
-            userInfo.innerHTML = "";
-            document.getElementById("google-signin").style.display = "inline-block";
-            document.getElementById("google-signout").style.display = "none";
-        }
-
-        document.getElementById("google-signout").onclick = signOut;
-
-        // Função para decodificar JWT (simplificada)
-        function jwt_decode(token) {
-            const base64Url = token.split('.')[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
-            return JSON.parse(jsonPayload);
-        }
     </script>
 </body>
 </html>
